@@ -1,4 +1,4 @@
-## Code for On the predictability of infectious disease outbreaks
+## Code and data for On the predictability of infectious disease outbreaks
 
 ### Citation
 Scarpino, S. V., & Petri, G. (2017). On the predictability of infectious disease outbreaks. arXiv preprint arXiv:1703.07317. https://arxiv.org/abs/1703.07317
@@ -8,10 +8,11 @@ The .R files contain the code to recreate the figures and main statistical analy
 
 ### Data
 Empirical data for all diseases–aside from Zika–were obtained from the U.S.A. National
-Notifiable Diseases Surveillance System as digitized by Project Tycho [1]. Zika data were obtained from public health reports from Colombia and Mexico as digitized by [28]. The supplement is available at http://scarpino.github.io/files/supplementary-information-predictability.pdf.
+Notifiable Diseases Surveillance System as digitized by Project Tycho [1]. Zika data were obtained from public health reports from Colombia and Mexico as digitized by [2]. The supplement is available at http://scarpino.github.io/files/supplementary-information-predictability.pdf.
 
 [1] van Panhuis, W. G. et al. Contagious diseases in the United States from 1888 to the
 present. The New England journal of medicine 369, 2152–2152 (2013).
+
 [2]  Rodriguez, D. M. et al. 10.5281zenodo.344913 (2017).
 
 ### Acknowledgements
