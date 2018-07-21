@@ -1,0 +1,12 @@
+data_field_code,data_field,full_description_en,full_description_original,report_name,unit,time_period_type
+CO0001,zika_confirmed_laboratory,Zika confirmed in laboratory,Confirmados por laboratorio,Municipality_Zika,cases,NA
+CO0002,zika_confirmed_clinic,Zika confirmed in clinic,Confirmados por clínica,Municipality_Zika,cases,NA
+CO0003,zika_suspected,Zika Suspected,Sospechoso,Municipality_Zika,cases,NA
+CO0004,zika_suspected_clinic,Zika suspected in clinic,Sospechosos por clínica,Municipality_Zika,cases,NA
+CO0005,zika_confirmed_laboratory_pregnant, Zika confirmed cases in lab for pregnant women,Casos confirmados por laboratorio en embarazadas,Epidemiological_Bulletin,cases,NA
+CO0006,zika_suspected_pregnant,Zika suspected cases in pregnant women,Casos sospechosos en embarazadas,Epidemiological_Bulletin,cases,NA
+CO0007,zika_confirmed_clinic_pregnant,Confirmed cases by clinic for pregnant women,Casos confirmados por clinica en embarazadas,Epidemiological_Bulletin,cases,NA
+CO0008,zika_suspected_clinic_pregnant,Suspected cases by clinic for pregnant women,Casos sospechosos por clinica en embarazadas,Epidemiological_Bulletin,cases,NA
+CO0009,neurological_syndrome_zika_positive,Neurological syndrome associated with zika positives,Casos de zika con sindromes neurologicos,Epidemiological_Bulletin,cases,NA  
+CO0010,microcephaly_cumulative_2017,microcephaly cases in 2017,casos de microcefalia en 2017,Epidemiological Bulletin,cases,NA
+CO0011,microcephaly_cumulative_2016_2017,cumulative microcephaly cases 2016-2017,casos acumulados microcefalia 2016-2017,Epidemioological Bulletin,cases,NA
