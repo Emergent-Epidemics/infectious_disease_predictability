@@ -214,7 +214,7 @@ if(run_new == TRUE){
   save(RESULTS, file = paste0(time_stamp, "_big_results_PE.RData"))
 }else{
   load("../Results/1529387566.44103_big_results_PE.RData")
-  }
+}
 
 run_big_model <- FALSE
 if(run_big_model == TRUE){
