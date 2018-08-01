@@ -7,6 +7,7 @@ setwd(dirname(rstudioapi::getActiveDocumentContext()$path))#sets working directo
 #libraries (not included in limits_acc_functions.R)
 library(EpiModel)
 library(statcomp)
+library(wesanderson)
 
 ###########
 #acc funcs#
@@ -17,9 +18,10 @@ source("limits_acc_functions.R")
 #Global Params#
 ###############
 n_iter <- 1000
-run_new <- TRUE #set to TRUE to re-run the iterations
+run_new <- FALSE #set to TRUE to re-run the iterations
 do_coarse_grain <- FALSE #set TRUE to coarse grain
 grain_by <- 10 #time steps to coarse grain over
+cols <- wes_palette(name = "Darjeeling2", n = 2)
 
 ######
 #Data#
@@ -31,7 +33,9 @@ data <- list()
 
 for(i in irr_files){
   irr.i <- read.csv(i, header = FALSE)
-  name.i <- paste0("irr-0.", strsplit(i, "[.]")[[1]][4])
+  trans.i <- strsplit(i, "clique-size")[[1]][2]
+  trans.i <- strsplit(trans.i, ".txt")[[1]][1]
+  name.i <- paste0("irr-", trans.i)
   
   if(do_coarse_grain == TRUE){
     irr.i <- course_grain(x = irr.i[,1], grain.by = grain_by)
@@ -44,7 +48,9 @@ for(i in irr_files){
 
 for(i in reg_files){
   reg.i <- read.csv(i, header = FALSE)
-  name.i <- paste0("reg-0.", strsplit(i, "[.]")[[1]][4])
+  trans.i <- strsplit(i, "clique-size")[[1]][2]
+  trans.i <- strsplit(trans.i, ".txt")[[1]][1]
+  name.i <- paste0("reg-", trans.i)
   
   if(do_coarse_grain == TRUE){
     reg.i <- course_grain(x = reg.i[,1], grain.by = grain_by)
@@ -126,7 +132,7 @@ if(run_new == TRUE){
         x.i <- x.i[start.i:(start.i+length.i)]
       }
       
-      ent.i <- rel_ent(x = x.i, m.min = 2, m.max = 7, t.min = 1, t.max = 1, do_mc_ent = FALSE)
+      ent.i <- rel_ent(x = x.i, m.min = 4, m.max = 4, t.min = 1, t.max = 1, do_mc_ent = FALSE)
       if(is.na(ent.i$d) == TRUE) next
       ent_w.i <- entropy(weighted_ordinal_pattern_distribution(x.i, ent.i$d))/log(factorial(ent.i$d))
       ent_raw.i <- entropy(codebook(x.i, m = ent.i$d, t = 1))/log(factorial(ent.i$d))
@@ -153,11 +159,11 @@ if(run_new == TRUE){
   time_stamp <- as.numeric(Sys.time())
   save(RESULTS, file = paste0(time_stamp, "_big_results_PE_SIM.RData"))
 }else{
-  load("../Results/1533140782.44114_big_results_PE_SIM.RData")
+  load("../Results/1533154427.72181_big_results_PE_SIM.RData")
 }
 
 RESULTS$transmissibility <- as.numeric(as.character(RESULTS$transmissibility))
-RESULTS$trans_factor <- round(RESULTS$transmissibility, 2)
+RESULTS$trans_factor <- round(RESULTS$transmissibility, 1)
 RESULTS$trans_factor[which(RESULTS$trans_factor == 0.11)] <- 0.12
 lvls <- unique(RESULTS$trans_factor)
 lvls <- lvls[order(lvls, decreasing = FALSE)]
@@ -172,11 +178,16 @@ summary(mod)
 #########
 #Figures#
 #########
-p0 <- ggplot(data = RESULTS, aes(x = n, y = 1-raw.perm.entropy, colour = transmissibility, group = disease))
+p0 <- ggplot(data = RESULTS, aes(x = n, y = 1-raw.perm.entropy, colour = disease))
 
 quartz(width = 10, height = 6)
 
-p0 + geom_point() + xlab("Number of weeks") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.86, 0.73), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 20), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01)) + scale_x_continuous(expand = c(0.01,0.01), limits = c(0, 100)) + geom_smooth()
+p0 + geom_point() + scale_colour_manual(values = paste0(cols, 75),  guide_legend(title = "Model")) + xlab("Number of weeks") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.05, 0.9), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 15), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01)) + scale_x_continuous(expand = c(0.01,0.01), limits = c(0, 100)) + geom_smooth()
 
-p1 <- ggplot(data = RESULTS, aes(x = trans_factor, y = 1-raw.perm.entropy, fill = disease))
-p1+geom_boxplot() + xlab("Transmissibility") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.86, 0.73), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 20), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3))
+p0 + geom_smooth(method = "loess") + scale_colour_manual(values = paste0(cols, 75),  guide_legend(title = "Model")) + xlab("Number of weeks") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.05, 0.9), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 15), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01)) + scale_x_continuous(expand = c(0.01,0.01), limits = c(0, 100)) 
+
+use.plot <- which(RESULTS$transmissibility <= 1.6)
+plot.df <- RESULTS[use.plot, ]
+p1 <- ggplot(data = plot.df, aes(x = trans_factor, y = 1-raw.perm.entropy, fill = disease))
+quartz(width = 10, height = 6)
+p1 + geom_boxplot(coef = 100) + scale_fill_manual(values = cols,  guide_legend(title = "Model"))  + xlab("Transmissibility") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.05, 0.90), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 15), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(limits = c(0,1), expand = c(0.001,0.001))
