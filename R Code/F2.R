@@ -231,7 +231,7 @@ diseases <- unique(RESULTS$disease)
 for(i in 1:length(diseases)){
   use.i <- which(RESULTS$disease == diseases[i] & ! RESULTS$location %in% c("GUAM", "VIRGIN.ISLANDS", "PAC.TRUST.TERR", "NORTHERN.MARIANA.ISLANDS", "AMERICAN.SAMOA", "X"))
   
-  y.i <- RESULTS$weighted.perm.entropy[use.i]
+  y.i <- RESULTS$raw.perm.entropy[use.i]
   x.i <- RESULTS$n[use.i]
   loc.i <- RESULTS$location[use.i]
   

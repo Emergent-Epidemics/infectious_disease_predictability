@@ -116,42 +116,43 @@ load_data <- function(data, dat, name, col_start = 3, do_n_filt = FALSE, week_fi
   for(i in col_start:ncol(dat)){
     if(do_n_filt == TRUE){
       filt.i <- which(dat[,i] > summary(dat[,i])[2])
+    }else{
+      if(length(week_filt) > 0){
+        filt.i <- which(dat$WEEK >= week_filt[1] & dat$WEEK <= week_filt[2])
       }else{
-        if(length(week_filt) > 0){
-          filt.i <- which(dat$WEEK >= week_filt[1] & dat$WEEK <= week_filt[2])
+        if(length(year_filt) > 0){
+          filt.i <- which(dat$YEAR >= year_filt[1] & dat$YEAR <= year_filt[2])
         }else{
-          if(length(year_filt) > 0){
-            filt.i <- which(dat$YEAR >= year_filt[1] & dat$YEAR <= year_filt[2])
-          }else{
-            filt.i <- 1:nrow(dat)
-          }
+          filt.i <- 1:nrow(dat)
         }
       }
-    data[[paste0(name,colnames(dat[i]))]] <- dat[filt.i,i]
     }
+    data[[paste0(name,colnames(dat[i]))]] <- dat[filt.i,i]
+  }
   return(data)
 }
 
 #function for start to finish with window
 full_lenth_pred_window <- function(data, start, end, window, d_1 = 2, d_2 = 5){
   begin <- start
-  starts <- seq(begin, (end-window), by = windowcomp_dist)
+  starts <- seq(begin, (end-window), by = window)
   ends <- starts + window
   ends[length(ends)] <- end
   
-  boot.perm.entropy <- rep(NA, length(starts))
-  n <- boot.perm.entropy
-  d <- boot.perm.entropy
-  tau <- boot.perm.entropy
-  raw.perm.entropy <- boot.perm.entropy
-  boot.d <- boot.perm.entropy
-  boot.tau <- boot.perm.entropy
-  filt.perm.entropy <- boot.perm.entropy
-  n.filt <- boot.perm.entropy
-  boot.n <- boot.perm.entropy
+  pdc.perm.entropy <- rep(NA, length(starts))
+  n <- pdc.perm.entropy
+  d <- pdc.perm.entropy
+  tau <- pdc.perm.entropy
+  raw.perm.entropy <- pdc.perm.entropy
+  weighted.perm.entropy <- pdc.perm.entropy
+  boot.d <- pdc.perm.entropy
+  boot.tau <- pdc.perm.entropy
+  filt.perm.entropy <- pdc.perm.entropy
+  n.filt <- pdc.perm.entropy
+  boot.n <- pdc.perm.entropy
   dists <- list()
   
-  results <- data.frame(boot.perm.entropy, n, d, tau, raw.perm.entropy, boot.d, boot.tau, filt.perm.entropy, n.filt, boot.n)
+  results <- data.frame(raw.perm.entropy, pdc.perm.entropy, n, d, tau, weighted.perm.entropy, boot.d, boot.tau, filt.perm.entropy, n.filt, boot.n)
   
   for(i in 1:length(starts)){
     start.i <- starts[i]
@@ -162,16 +163,19 @@ full_lenth_pred_window <- function(data, start, end, window, d_1 = 2, d_2 = 5){
       next
     }
     
-    ent.i <- rel_ent(x = x.i, m.min = d_1, m.max = d_2, t.min = 1, t.max = 1, do_mc_ent = FALSE)
-    if(is.na(ent.i$d) == TRUE){
-      dists[[i]] <- NA
-      next
-    }
+    ent.i <- rel_ent(x = x.i, m.min = 3, m.max = 3, t.min = 1, t.max = 1, do_mc_ent = FALSE)
+    
+    if(is.na(ent.i$d) == TRUE) next
+    
+    ent_w.i <- entropy(weighted_ordinal_pattern_distribution(x.i, ent.i$d))/log(factorial(ent.i$d))
+    ent_raw.i <- entropy(codebook(x.i, m = ent.i$d, t = 1))/log(factorial(ent.i$d))
+    
     perm_dist <- codebook(x.i, m = ent.i$d)
     dists[[i]] <- perm_dist
     
-    results[i,"boot.perm.entropy"] <- ent.i$rel.ent
-    results[i,"raw.perm.entropy"] <- ent.i$ent
+    results[i,"pdc.perm.entropy"] <- ent.i$ent
+    results[i,"raw.perm.entropy"] <- ent_raw.i
+    results[i,"weighted.perm.entropy"] <- ent_w.i
     results[i,"n"] <- ent.i$n
     results[i,"d"] <- ent.i$d
     results[i, "tau"] <- ent.i$tau
@@ -186,21 +190,20 @@ full_lenth_pred <- function(data, start, end, d_1 = 2, d_2 = 5){
   starts <- rep(start, length(start:end))
   ends <- seq(start, end, by = 1)
   
-  boot.perm.entropy <- rep(NA, length(starts))
-  n <- boot.perm.entropy
-  d <- boot.perm.entropy
-  tau <- boot.perm.entropy
-  raw.perm.entropy <- boot.perm.entropy
-  boot.d <- boot.perm.entropy
-  boot.tau <- boot.perm.entropy
-  filt.perm.entropy <- boot.perm.entropy
-  n.filt <- boot.perm.entropy
-  boot.n <- boot.perm.entropy
-  kl <- boot.perm.entropy
-  kl.p <- boot.perm.entropy
+  pdc.perm.entropy <- rep(NA, length(starts))
+  n <- pdc.perm.entropy
+  d <- pdc.perm.entropy
+  tau <- pdc.perm.entropy
+  raw.perm.entropy <- pdc.perm.entropy
+  weighted.perm.entropy <- pdc.perm.entropy
+  boot.d <- pdc.perm.entropy
+  boot.tau <- pdc.perm.entropy
+  filt.perm.entropy <- pdc.perm.entropy
+  n.filt <- pdc.perm.entropy
+  boot.n <- pdc.perm.entropy
   dists <- list()
   
-  results <- data.frame(boot.perm.entropy, n, d, tau, raw.perm.entropy, boot.d, boot.tau, filt.perm.entropy, n.filt, boot.n, kl, kl.p)
+  results <- data.frame(pdc.perm.entropy, n, d, tau, raw.perm.entropy, weighted.perm.entropy, boot.d, boot.tau, filt.perm.entropy, n.filt, boot.n)
   
   for(i in 1:length(starts)){
     start.i <- starts[i]
@@ -211,26 +214,19 @@ full_lenth_pred <- function(data, start, end, d_1 = 2, d_2 = 5){
       next
     }
     
-    ent.i <- rel_ent(x = x.i, m.min = d_1, m.max = d_2, t.min = 1, t.max = 1, do_mc_ent = FALSE)
-    if(is.na(ent.i$d) == TRUE){
-      next
-    }
+    ent.i <- rel_ent(x = x.i, m.min = 3, m.max = 3, t.min = 1, t.max = 1, do_mc_ent = FALSE)
+    
+    if(is.na(ent.i$d) == TRUE) next
+    
+    ent_w.i <- entropy(weighted_ordinal_pattern_distribution(x.i, ent.i$d))/log(factorial(ent.i$d))
+    ent_raw.i <- entropy(codebook(x.i, m = ent.i$d, t = 1))/log(factorial(ent.i$d))
+    
     perm_dist <- codebook(x.i, m = ent.i$d)
     dists[[i]] <- perm_dist
     
-    if(i > 1){
-      #kl.i <- try(KL.plugin(dists[[(i-1)]], dists[[i]]), silent = TRUE)
-      kl.i <- sum(abs(dists[[(i-1)]] - dists[[i]]))
-      p.i <- NA
-    }else{
-      k.li <- NA
-      p.i <- NA
-    }
-    
-    results[i, "kl"] <- kl.i
-    results[i, "kl.p"] <- p.i
-    results[i,"boot.perm.entropy"] <- ent.i$rel.ent
-    results[i,"raw.perm.entropy"] <- ent.i$ent
+    results[i,"pdc.perm.entropy"] <- ent.i$ent
+    results[i,"raw.perm.entropy"] <- ent_raw.i
+    results[i,"weighted.perm.entropy"] <- ent_w.i
     results[i,"n"] <- ent.i$n
     results[i,"d"] <- ent.i$d
     results[i, "tau"] <- ent.i$tau
