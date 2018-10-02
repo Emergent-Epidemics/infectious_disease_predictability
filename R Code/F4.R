@@ -139,11 +139,12 @@ for(i in 1:length(fit_windows)){
 }
 
 vaccine_switch <- na.omit(vaccine_switch)
+vaccine_switch$Comparison <- factor(vaccine_switch$Comparison, levels = c("pre-pre", "pre-post", "post-post"))
 
-p_vacc <- ggplot(data = vaccine_switch, aes(x = as.factor(Comparison), y = log(JS), fill = Location))
+#p_vacc <- ggplot(data = vaccine_switch, aes(x = Comparison, y = log(JS), fill = Location))
 #p_vacc + geom_boxplot() + theme(legend.position = "none")
 
-p_vacc <- ggplot(data = vaccine_switch, aes(x = as.factor(Comparison), y = JS, fill = Comparison))
+p_vacc <- ggplot(data = vaccine_switch, aes(x = Comparison, y = JS, fill = Comparison))
 quartz(width = 7, height = 5)
 p_vacc + geom_boxplot(notch = TRUE, coef = 100) + scale_fill_manual(values = c("#d4c5b2","#c8573b","#77674f"), guide_legend(title = "Comparison")) + xlab("Comparison") + ylab("Jensen-Shannon divergence (log2)") + theme(legend.position = c(0.7, 0.75), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "#f0f0f000", colour = "black"), axis.text.y = element_text(colour = "black", size = 12), axis.text.x = element_text(colour = "black", size = 12), axis.title = element_text(colour = "black", size = 15), panel.grid.minor = element_line(colour = "#00000000",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.015,0.015), limits = c(0, 0.65)) + scale_x_discrete(expand = c(0.01,0.01)) 
 

@@ -5,6 +5,7 @@ library(xtable)
 library(stats)
 library(entropy)
 library(philentropy)
+library(statcomp)
 
 ###########
 #acc funcs#
