@@ -186,7 +186,7 @@ p + geom_boxplot(coef = 100) + scale_fill_manual(values = c("#335b8d90", "#ddb86
 #measles in texas figure
 fit$results$raw.perm.entropy[1:50] <- NA
 
-quartz(width = 15, height = 8)
+quartz(width = 7, height = 6)
 par(mar = c(5,4,4,4))
 plot(fit$results$raw.perm.entropy, type = "l", cex = 2, xlim = c(1,2740), xaxt = "n", yaxt = "n", bty = "n", lwd = 3, col = "#4d4d4d", xlab = "", ylab = "")
 par(new = TRUE)
@@ -197,6 +197,7 @@ at.y.z <- seq(min(data[["Measles-Texas"]], na.rm = TRUE), max(data[["Measles-Tex
 axis(2, at = at.y.z, labels = round(seq(0.5, 1, length.out = 4), 2), las = 2)
 axis(4, at = at.y.z, labels = floor(at.y.z))
 mtext("Weekly cases", side=4, line=3)
-legend(2200, 3600, legend = c("Permutation Entropy", "Measles-Texas"), col = c("#4d4d4d", "#b2182b"), lwd = 3, lty = c(1,3))
+legend(2050, 3600, legend = c("Permutation Entropy", "Measles-Texas"), col = c("#4d4d4d", "#b2182b"), lwd = 3, lty = c(1,3), cex = 0.7, bty = "n")
 abline(v = min(which(years == 1963)), lwd = 2, col = "#2b8cbe")
-text(min(which(years == 1963))+220, 6795, "Measles vaccine licensed")
+text(min(which(years == 1963))+550, 7000, "Measles vaccine licensed")
+
