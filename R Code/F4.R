@@ -141,6 +141,11 @@ for(i in 1:length(fit_windows)){
 vaccine_switch <- na.omit(vaccine_switch)
 vaccine_switch$Comparison <- factor(vaccine_switch$Comparison, levels = c("pre-pre", "pre-post", "post-post"))
 
+#anova
+mod <- aov(JS ~ Comparison * Location, data = vaccine_switch)
+tuk_mod <- TukeyHSD(mod)
+tuk_mod$Comparison
+
 #p_vacc <- ggplot(data = vaccine_switch, aes(x = Comparison, y = log(JS), fill = Location))
 #p_vacc + geom_boxplot() + theme(legend.position = "none")
 
