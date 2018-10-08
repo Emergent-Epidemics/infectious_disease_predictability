@@ -224,6 +224,10 @@ if(run_big_model == TRUE){
   model <- aov(data_model$raw.perm.entropy~data_model$disease*data_model$location)
   Tukey_Model <- TukeyHSD(model)
   Tukey_Model$`data_model$disease`[which(Tukey_Model$`data_model$disease`[,"p adj"] < 0.05),]
+  
+  tab_tau <- table(RESULTS$disease, RESULTS$tau)
+  tab_d_tau <- table(RESULTS$d, RESULTS$tau)
+  barplot(table(RESULTS$d+RESULTS$tau))
 }
 
 
