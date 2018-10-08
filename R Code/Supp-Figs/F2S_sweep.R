@@ -17,7 +17,7 @@ source("../limits_acc_functions.R")
 #Global Params#
 ###############
 n_iter <- 1000
-run_new <- TRUE #set to TRUE to re-run the iterations
+run_new <- FALSE #set to TRUE to re-run the iterations (warning, this will take a boat-load of time on a std. machine)
 
 ######
 #data#
@@ -211,9 +211,9 @@ if(run_new == TRUE){
   }
   
   time_stamp <- as.numeric(Sys.time())
-  save(RESULTS, file = paste0(time_stamp, "_big_results_PE.RData"))
+  save(RESULTS, file = paste0(time_stamp, "_big_results_PE_full_sweep.RData"))
 }else{
-  load("../../Results/1529387566.44103_big_results_PE_full_sweep.RData")
+  load("1539001859.69589_big_results_PE_full_sweep.RData")
 }
 
 run_big_model <- FALSE
