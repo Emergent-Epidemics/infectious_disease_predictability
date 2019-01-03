@@ -18,6 +18,7 @@ source("limits_acc_functions.R")
 ###############
 n_iter <- 1000
 run_new <- FALSE #set to TRUE to re-run the iterations
+disc_time <- 16 #time slice for figure 2b
 
 ######
 #data#
@@ -292,8 +293,24 @@ p0 <- ggplot(data = plot.dat, aes(x = n, y = PE, colour = disease))
 
 quartz(width = 7, height = 6)
 
-p0 + geom_line(size = 1) + scale_colour_manual(values = pal, guide_legend(title = "Disease")) + xlab("Number of weeks") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.86, 0.73), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 20), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01), limits = c(0.0,1)) + scale_x_continuous(expand = c(0.01,0.01), limits = c(0, 105))+geom_ribbon(aes(x = n, ymin = PEmin, ymax = PEmax, fill = disease), alpha = 0.25, colour = "#00000000") + scale_fill_manual(values = pal, guide_legend(title = "Disease")) + geom_line(size = 1)
+p0 + geom_vline(xintercept = disc_time, color = "#a65628", linetype = "longdash", size = 1.25) + geom_line(size = 1) + scale_colour_manual(values = pal, guide_legend(title = "Disease")) + xlab("Number of weeks") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.86, 0.73), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 20), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01), limits = c(0.0,1)) + scale_x_continuous(expand = c(0.01,0.01), limits = c(0, 105))+geom_ribbon(aes(x = n, ymin = PEmin, ymax = PEmax, fill = disease), alpha = 0.25, colour = "#00000000") + scale_fill_manual(values = pal, guide_legend(title = "Disease")) + geom_line(size = 1)
 
+#plotting a discrete time
+ use.time.etc <- which(RESULTS$disease %in% c("Chlamydia", "Gonorrhea", "Hepatitis A", "Influenza", "Measles", "Mumps", "Polio", "Whooping Cough", "Dengue") & ! RESULTS$location %in% c("GUAM", "VIRGIN.ISLANDS", "PAC.TRUST.TERR", "NORTHERN.MARIANA.ISLANDS", "AMERICAN.SAMOA", "X") & RESULTS$n == disc_time)
+  
+plot.dat.time <- RESULTS[use.time.etc, ]
+
+p0.b <- ggplot(data = plot.dat.time, aes(x = disease, y = 1 - raw.perm.entropy, fill = disease))
+main <- paste0("Outbreak predictability after ", round(disc_time/4, 1), " months")
+
+quartz(width = 7, height = 6)
+p0.b + geom_boxplot() + scale_fill_manual(values = pal, guide_legend(title = "Disease")) + xlab("") + ggtitle(main)+ ylab("Predictability (1 - H)") + theme(legend.position = "none", legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 12), axis.text.x = element_text(colour = "black", size = 14, angle = 90, hjust = 1, vjust = 0.5), axis.title = element_text(colour = "black", size = 20), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01), limits = c(0.0,1)) 
+
+model_disc <- aov(plot.dat.time $raw.perm.entropy ~ plot.dat.time$disease * plot.dat.time $location)
+Tukey_Model_disc <- TukeyHSD(model_disc)
+Tukey_Model_disc$`plot.dat.time$disease`[which(Tukey_Model_disc $`plot.dat.time$disease`[,"p adj"] < 0.05),]
+  
+#log
 p1 <- ggplot(data = plot.dat, aes(x = n, y = log(PE), colour = disease))
 
 quartz(width = 7, height = 6)
