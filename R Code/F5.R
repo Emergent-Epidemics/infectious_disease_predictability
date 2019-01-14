@@ -9,6 +9,7 @@ library(EpiModel)
 library(statcomp)
 library(wesanderson)
 library(gridExtra)
+library(cowplot)
 
 ###########
 #acc funcs#
@@ -180,14 +181,14 @@ summary(mod)
 #Figures#
 #########
 p0 <- ggplot(data = RESULTS, aes(x = n, y = 1-raw.perm.entropy, colour = disease))
-p0 <- p0 + geom_point() + scale_colour_manual(values = paste0(cols, 75),  guide_legend(title = "Model")) + xlab("Number of weeks") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.05, 0.9), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 15), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01)) + scale_x_continuous(expand = c(0.01,0.01), limits = c(0, 100)) + geom_smooth()
+p0 <- p0 + geom_point() + scale_colour_manual(values = paste0(cols, 75),  guide_legend(title = "")) + xlab("Number of weeks") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.0, 0.85), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 15), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01)) + scale_x_continuous(expand = c(0.01,0.01), limits = c(0, 100)) + geom_smooth(inherit.aes = FALSE, aes(x = n, y = 1-raw.perm.entropy, group = disease, linetype = disease), color = "black", se = FALSE) +scale_linetype(guide_legend(title = " ")) 
 
 #p0 + geom_smooth(method = "loess") + scale_colour_manual(values = paste0(cols, 75),  guide_legend(title = "Model")) + xlab("Number of weeks") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.05, 0.9), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 15), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01)) + scale_x_continuous(expand = c(0.01,0.01), limits = c(0, 100)) 
 
 use.plot <- which(RESULTS$transmissibility <= 1.6)
 plot.df <- RESULTS[use.plot, ]
 p1 <- ggplot(data = plot.df, aes(x = trans_factor, y = 1-raw.perm.entropy, fill = disease))
-p1 <- p1 + geom_boxplot(coef = 100) + scale_fill_manual(values = cols,  guide_legend(title = "Model"))  + xlab("Transmissibility") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.05, 0.90), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 15), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(limits = c(0,1), expand = c(0.001,0.001))
+p1 <- p1 + geom_boxplot(coef = 100)+ scale_fill_manual(values = cols,  guide_legend(title = ""))  + xlab("Transmissibility") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.0, 0.90), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 15), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(limits = c(0,1), expand = c(0.001,0.001)) 
 
 quartz(width = 15, height = 6)
-grid.arrange(p0, p1, nrow = 1)
+plot_grid(p0, p1, nrow = 1, labels = "AUTO")
