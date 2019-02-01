@@ -163,19 +163,21 @@ The authors declare no conflicts of interest exist.
 
 \begin{figure}[H]
 	\centering
-	%\includegraphics[width=0.99\linewidth]{F5.pdf}
-	\caption{\label{fig:simnets}\textbf{Predictability decreases with timeseries length and contact homogeneity.} 
-		\textit{A.)} For two classes of contact patterns in a synthetic temporal network--\textit{Reg.}, blue and \textit{Irr.}, brown--we calculate PE for time series of variable length. For each time series length we randomly select 1,000 starting points and find consistent decreases in the permutation entropy for longer time series. The lines (solid, \textit{Irr.}) and (dashed, \textit{Reg.}) represent the smoothed conditional means, i.e. trend, as determined by fitting a generalized additive model with a thin-plate spline penalty. \textit{B.)} When considering the uniform (\textit{Reg.}, blue) and heterogeneous (\textit{Irr.}, brown) scenarios separately, we find that the largest difference in predictability is found below the corresponding epidemic transition consistently with the idea that noisy, sputtering infection trees are harder to predict than the epidemic waves above the transition. The solid line represents the median, boxes enclose the 25th to 75th percentiles of the distributions, whiskers cover the entire distribution. See the ``Epidemic simulations" section in the Supplementary Materials for details on the simulation models.}
-\end{figure} 
-
-\begin{figure}[H]
-	\centering
 	%\includegraphics[width=0.99\linewidth]{F4.pdf}
 	\caption{\label{fig:vaccent}
 		\textbf{Predictability shifts after the start of wide-spread measles vaccination.} \textit{A.)} Measles in Texas: permutation entropy shifts after the start of wide-spread vaccination. A rolling window estimate of the permutation entropy for weekly Measles cases reported to the CDC from the state of Texas between 1927 and 1983 (red dashed line).  The vertical blue line indicates when the first measles vaccine was licensed for use in the United States.  Shortly after the vaccine was introduced the permutation entropy increased significantly, which is expected after a system experiences a change to its model structure, in this case vaccination.
 		\textit{B. )} Permutation entropy detects changing model structure across all states in the US. The box-plots aggregate the Jenson-Shannon divergences between pairs of windows that are both in the pre-vaccine era (light brown), have one window in the pre- and one in the post-vaccine era (red) and both in the post-vaccine era (dark drown). The Jenson-Shannon divergence of the symbol frequency distribution was calculated between all pairs of rolling one-year (52 week) windows for measles time series across the US. The average divergence between symbol distributions was higher between windows in the pre- and post-vaccine era, as compared to windows that were either both in the pre- or both in the post-vaccine era (determined by permutation test and by an ANOVA that also included state-level differences in the Jenson Shannon divergence and a Tukey Honest Significant Differences post-hoc test, which contained a correction for multiple comparisons). The solid line represents the median, boxes enclose the 25th to 75th percentiles of the distributions, whiskers cover the entire distribution. 
 	}
 \end{figure}
+
+\begin{figure}[H]
+	\centering
+	%\includegraphics[width=0.99\linewidth]{F5.pdf}
+	\caption{\label{fig:simnets}\textbf{Predictability decreases with timeseries length and contact homogeneity.} 
+		\textit{A.)} For two classes of contact patterns in a synthetic temporal network--\textit{Reg.}, blue and \textit{Irr.}, brown--we calculate PE for time series of variable length. For each time series length we randomly select 1,000 starting points and find consistent decreases in the permutation entropy for longer time series. The lines (solid, \textit{Irr.}) and (dashed, \textit{Reg.}) represent the smoothed conditional means, i.e. trend, as determined by fitting a generalized additive model with a thin-plate spline penalty. \textit{B.)} When considering the uniform (\textit{Reg.}, blue) and heterogeneous (\textit{Irr.}, brown) scenarios separately, we find that the largest difference in predictability is found below the corresponding epidemic transition consistently with the idea that noisy, sputtering infection trees are harder to predict than the epidemic waves above the transition. The solid line represents the median, boxes enclose the 25th to 75th percentiles of the distributions, whiskers cover the entire distribution. See the ``Epidemic simulations" section in the Supplementary Materials for details on the simulation models.}
+\end{figure} 
+
+
 
 \bibliography{prediction}
 
