@@ -219,16 +219,16 @@ if(length(rm.Inf) > 0){
   plot.dat <- plot.dat[-rm.Inf,]
 }
 plot.dat$d_trans <- plot.dat$n * 1/R0s[plot.dat$disease]
-m.plot <- lmer(log(raw.perm.entropy)~log(d_trans)+(log(d_trans)|disease), data = plot.dat)
+m.plot.lmer <- lmer(log(raw.perm.entropy)~log(d_trans)+(log(d_trans)|disease), data = plot.dat)
+m.plot <- lm(log(raw.perm.entropy)~log(d_trans), data = plot.dat)
 
 pal <- c("#e7298a", "gray", "#7570b3","#666666", "#b2182b", "#2166ac" , "#1b9e77", "#E6AB02", "#ff7f00")
 
 p0 <- ggplot(data = plot.dat, aes(x = n, y = 1-raw.perm.entropy, colour = disease))
-p1 <- ggplot(data = plot.dat, aes(x = log(n), y = log(raw.perm.entropy), colour = disease))
+p1 <- ggplot(data = plot.dat, aes(x = log(d_trans), y = log(raw.perm.entropy), colour = disease))
   
 quartz(width = 7, height = 6)
-
 p0 + geom_point() + scale_colour_manual(values = pal, guide_legend(title = "Disease")) + xlab("Time series length (weeks)") + ylab("Predictability") + theme(legend.position = c(0.84, 0.74), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 20), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01), limits = c(0,1)) + scale_x_continuous(expand = c(0.01,100))
 
 quartz(width = 7, height = 6)
-p1 + geom_point() + scale_colour_manual(values = pal, guide_legend(title = "Disease")) + xlab("Weeks/R0 (log)") + ylab("Permutation entropy (log)") + theme(legend.position = c(0.84, 0.28), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "#f0f0f0", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 20), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01)) + scale_x_continuous(expand = c(0.01,0.01))+geom_abline(aes(intercept = fixef(m.plot)[1], slope = fixef(m.plot)[2]))
+p1 + geom_point() + scale_colour_manual(values = pal, guide_legend(title = "Disease")) + xlab("Weeks/R0 (log scale)") + ylab("Permutation entropy (log scale)") + theme(legend.position = c(0.87, 0.26), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 20), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01, 0.01)) + scale_x_continuous(expand = c(0.01,0.01), limits = c(2.5, 7))+geom_abline(aes(intercept = fixef(m.plot.lmer)[1], slope = fixef(m.plot.lmer)[2]))
