@@ -1,11 +1,7 @@
 #SV Scarpino
-#F4 for https://arxiv.org/abs/1703.07317
-
-#set working dir
-setwd(dirname(rstudioapi::getActiveDocumentContext()$path))#sets working directory to source file location
+#F4 for https://www.nature.com/articles/s41467-019-08616-0
 
 #libraries (not included in limits_acc_functions.R)
-library(entropy)
 
 ###########
 #acc funcs#

@@ -1,3 +1,7 @@
+#SV Scarpino
+#Misc. functions for https://www.nature.com/articles/s41467-019-08616-0
+
+#libraries
 library(pdc)
 library(ggplot2)
 library(lme4)
