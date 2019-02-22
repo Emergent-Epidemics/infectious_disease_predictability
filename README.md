@@ -17,9 +17,6 @@ present. The New England journal of medicine 369, 2152–2152 (2013).
 
 [3]  Dengue Forecasting project website. Retrieved from http://dengueforecasting.noaa.gov/  (last accessed: Oct 5th  2018, Oct 16).
 
-### Supplement
-The supplement is available at http://scarpino.github.io/files/supplementary-information-predictability.pdf.
-
 ### Acknowledgements
 We thank Joshua Garland, Pejman Rohani, and Alessandro Vespignani for productive conversations on permutation entropy and helpful comments on an earlier version of the manuscript. S.V.S. received funding support from the University of Vermont and Northeastern University. G.P. received funding support from Fondazione Compagnia San Paolo. S.V.S. and G.P. conducted the study as fellows at IMeRA and drafted the manuscript at [Four Corners of the Earth](https://www.instagram.com/fourcornersoftheearthdeli/) in Burlington Vermont.
 
