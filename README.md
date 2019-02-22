@@ -1,7 +1,7 @@
 ## Code and data for On the predictability of infectious disease outbreaks
 
 ### Citation
-Scarpino, S. V., & Petri, G. (2017). On the predictability of infectious disease outbreaks. arXiv preprint arXiv:1703.07317. https://arxiv.org/abs/1703.07317
+Scarpino SV & Petri G. (2019). On the predictability of infectious disease outbreaks. Nature Communications 10(1) 10.1038/s41467-019-08616-0. https://www.nature.com/articles/s41467-019-08616-0
 
 ### Notes on the code
 The .R files contain the code to recreate the figures and main statistical analyses. 
