@@ -3,6 +3,12 @@
 ### Citation
 Scarpino SV & Petri G. (2019). On the predictability of infectious disease outbreaks. Nature Communications 10(1) 10.1038/s41467-019-08616-0. https://www.nature.com/articles/s41467-019-08616-0
 
+### WARNING Statcomp package
+The maintainers of statcomp have stopped updating the package and it has been archived on CRAN.  We are storing a copy here, which you can install with the code below.  WE PROVIDE NO LICENSE, NO WARRANTY, AND NO RIGHTS FOR/TO THIS CODE!
+
+library(devtools)
+install_github("Emergent-Epidemics/infectious_disease_predictability/statcomp")
+
 ### Notes on the code
 The .R files contain the code to recreate the figures and main statistical analyses. 
 

@@ -183,7 +183,7 @@ if(run_new == TRUE){
         x.i <- x.i[start.i:(start.i+length.i)]
       }
       
-      ent.i <- rel_ent(x = x.i, m.min = 3, m.max = 3, t.min = 1, t.max = 1, do_mc_ent = FALSE)
+      ent.i <- rel_ent(x = x.i, m.min = 2, m.max = 5, t.min = 1, t.max = 20, do_mc_ent = FALSE)
       if(is.na(ent.i$d) == TRUE) next
       ent_w.i <- entropy(weighted_ordinal_pattern_distribution(x.i, ent.i$d))/log(factorial(ent.i$d))
       ent_raw.i <- entropy(codebook(x.i, m = ent.i$d, t = 1))/log(factorial(ent.i$d))
@@ -292,7 +292,7 @@ quartz(width = 7, height = 6)
 p0 + geom_vline(xintercept = disc_time, color = "#a65628", linetype = "longdash", size = 1.25) + geom_line(size = 1) + scale_colour_manual(values = pal, guide_legend(title = "Disease")) + xlab("Number of weeks") + ylab("Predictability (1 - H)") + theme(legend.position = c(0.86, 0.73), legend.key = element_rect(fill = "#f0f0f0"), legend.background = element_rect(fill = "#ffffffaa", colour = "black"), panel.background = element_rect(fill = "white", colour = "black"), axis.text.y = element_text(colour = "black", size = 14), axis.text.x = element_text(colour = "black", size = 14), axis.title = element_text(colour = "black", size = 20), panel.grid.minor = element_line(colour = "#00000050",linetype = 3), panel.grid.major = element_line(colour = "#00000060", linetype = 3)) + scale_y_continuous(expand = c(0.01,0.01), limits = c(0.0,1)) + scale_x_continuous(expand = c(0.01,0.01), limits = c(0, 105))+geom_ribbon(aes(x = n, ymin = PEmin, ymax = PEmax, fill = disease), alpha = 0.25, colour = "#00000000") + scale_fill_manual(values = pal, guide_legend(title = "Disease")) + geom_line(size = 1)
 
 #plotting a discrete time
- use.time.etc <- which(RESULTS$disease %in% c("Chlamydia", "Gonorrhea", "Hepatitis A", "Influenza", "Measles", "Mumps", "Polio", "Whooping Cough", "Dengue") & ! RESULTS$location %in% c("GUAM", "VIRGIN.ISLANDS", "PAC.TRUST.TERR", "NORTHERN.MARIANA.ISLANDS", "AMERICAN.SAMOA", "X") & RESULTS$n == disc_time)
+use.time.etc <- which(RESULTS$disease %in% c("Chlamydia", "Gonorrhea", "Hepatitis A", "Influenza", "Measles", "Mumps", "Polio", "Whooping Cough", "Dengue") & ! RESULTS$location %in% c("GUAM", "VIRGIN.ISLANDS", "PAC.TRUST.TERR", "NORTHERN.MARIANA.ISLANDS", "AMERICAN.SAMOA", "X") & RESULTS$n == disc_time)
   
 plot.dat.time <- RESULTS[use.time.etc, ]
 

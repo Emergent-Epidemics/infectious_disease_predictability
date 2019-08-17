@@ -1,0 +1,16 @@
+Package: statcomp
+Title: Statistical Complexity and Information Measures for Time Series
+        Analysis
+Version: 0.0.1.1000
+Authors@R: c(person("Sebastian", "Sippel", , "ssippel@bgc-jena.mpg.de", role = c("aut", "cre")), person("Holger", "Lange", , "Holger.Lange@nibio.no", role = c("aut")), person("Fabian", "Gans", , "fgans@bgc-jena.mpg.de", role = c("aut")))
+Author: Sebastian Sippel [aut, cre], Holger Lange [aut], Fabian Gans [aut]
+Maintainer: Sebastian Sippel <ssippel@bgc-jena.mpg.de>
+Description: An implementation of local and global statistical complexity measures (aka Information Theory Quantifiers, ITQ) for time series analysis based on ordinal statistics (Bandt and Pompe (2002) <DOI:10.1103/PhysRevLett.88.174102>). Several distance measures that operate on ordinal pattern distributions, auxiliary functions for ordinal pattern analysis, and generating functions for stochastic and deterministic-chaotic processes for ITQ testing are provided.
+Depends: R (>= 2.7.0)
+License: GPL-2
+LazyData: true
+Imports: stats, zoo
+Packaged: 2016-09-01 14:01:07 UTC; ssippel
+NeedsCompilation: yes
+Repository: CRAN
+Date/Publication: 2016-09-01 18:30:15
