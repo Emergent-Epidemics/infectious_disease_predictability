@@ -8,7 +8,7 @@ The maintainers of statcomp have stopped updating the package and it has been ar
 
 library(devtools)
 
-install_github("Emergent-Epidemics/infectious_disease_predictability/statcomp")
+install_github("Emergent-Epidemics/statcomp")
 
 ### Notes on the code
 The .R files contain the code to recreate the figures and main statistical analyses. 
