@@ -7,6 +7,7 @@ Scarpino SV & Petri G. (2019). On the predictability of infectious disease outbr
 The maintainers of statcomp have stopped updating the package and it has been archived on CRAN.  We are storing a copy here, which you can install with the code below.  WE PROVIDE NO LICENSE, NO WARRANTY, AND NO RIGHTS FOR/TO THIS CODE!
 
 library(devtools)
+
 install_github("Emergent-Epidemics/infectious_disease_predictability/statcomp")
 
 ### Notes on the code
