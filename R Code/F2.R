@@ -272,7 +272,7 @@ R0s <- c("Dengue" = 4, "Influenza" = 1.5, "Measles" = 15, "Polio" = 6, "Whooping
 ####
 #F1#
 ####
-use.F1 <- which(results$disease %in% c("Chlamydia", "Gonorrhea", "Hepatitis A", "Influenza", "Measles", "Mumps", "Polio", "Whooping Cough", "Dengue", "Sim"))
+use.F1 <- which(results$disease %in% c("noise", "noiseMissing", "Hepatitis A", "Influenza", "Measles", "Mumps", "Polio", "Whooping Cough", "Dengue", "Sim"))
 
 data_model2 <- results[which(results$disease %in% c("Chlamydia", "Gonorrhea", "Hepatitis A", "Influenza", "Measles", "Mumps", "Polio", "Whooping Cough", "Dengue")), ]
 model2 <- aov(data_model2$PE~data_model2$disease)

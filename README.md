@@ -1,6 +1,10 @@
 ## Code and data for On the predictability of infectious disease outbreaks
 
 ### Citation
+The DOI for the closest version of the code to what was used in our publication is:
+
+[![DOI](https://zenodo.org/badge/141824836.svg)](https://doi.org/10.5281/zenodo.17242369)
+
 Scarpino SV & Petri G. (2019). On the predictability of infectious disease outbreaks. Nature Communications 10(1) 10.1038/s41467-019-08616-0. https://www.nature.com/articles/s41467-019-08616-0
 
 ### WARNING Statcomp package
